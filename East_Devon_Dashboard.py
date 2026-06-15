@@ -25,8 +25,17 @@ if not os.path.exists("feature_columns.pkl"):
         quiet=False
     )
 
-model = joblib.load("model.pkl")
-feature_columns = joblib.load("feature_columns.pkl")
+@st.cache_resource
+def load_model():
+    return joblib.load("model.pkl")
+
+@st.cache_resource
+def load_feature_columns():
+    return joblib.load("feature_columns.pkl")
+
+model = load_model()
+feature_columns = load_feature_columns()
+
 
 st.set_page_config(page_title="East Devon EPC Dashboard", layout="wide")
 st.markdown("""
@@ -269,7 +278,7 @@ The classification model achieved an accuracy of approximately 73%, indicating r
 """)
     
 elif menu == "Predictive Analytics":
-
+    
     st.header("Model Performance")
     st.markdown("""
 The predictive modelling results show clear differences in performance across the evaluated algorithms. The Dummy Baseline achieved an R² score close to zero, indicating that it provides little predictive value beyond using the average efficiency score. Linear Regression improved performance with an R² score of 0.589, demonstrating that some relationships exist between the predictor variables and energy efficiency.
