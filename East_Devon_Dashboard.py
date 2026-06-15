@@ -8,13 +8,25 @@ import os
 import gdown
 import joblib
 
-MODEL_FILE_ID = "1XDQ2xriFG3mhBYD5_wYupHjrgEDFQqnM"
+MODEL_ID = "1XDQ2xriFG3mhBYD5_wYupHjrgEDFQqnM"
+FEATURE_ID = "1mi2-phGju0hRa8pItx2u_lKtwK4AHYGB"
 
 if not os.path.exists("model.pkl"):
-    url = f"https://drive.google.com/uc?id={MODEL_FILE_ID}"
-    gdown.download(url, "model.pkl", quiet=False)
+    gdown.download(
+        f"https://drive.google.com/uc?id={MODEL_ID}",
+        "model.pkl",
+        quiet=False
+    )
+
+if not os.path.exists("feature_columns.pkl"):
+    gdown.download(
+        f"https://drive.google.com/uc?id={FEATURE_ID}",
+        "feature_columns.pkl",
+        quiet=False
+    )
 
 model = joblib.load("model.pkl")
+feature_columns = joblib.load("feature_columns.pkl")
 
 st.set_page_config(page_title="East Devon EPC Dashboard", layout="wide")
 st.markdown("""
